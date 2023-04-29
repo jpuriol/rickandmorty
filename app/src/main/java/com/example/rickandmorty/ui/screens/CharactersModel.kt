@@ -21,8 +21,10 @@ class CharactersModel : ViewModel() {
     private val _state = MutableStateFlow(CharactersState())
     val state = _state.asStateFlow()
 
-    fun setCharecters(characters: List<Character>) {
-        _state.update { CharactersState(characters = characters) }
+    fun addCharacters(characters: List<Character>) {
+        _state.update {
+            it.copy(characters = it.characters + characters)
+        }
     }
 
 }

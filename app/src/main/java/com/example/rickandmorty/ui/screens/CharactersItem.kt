@@ -32,7 +32,12 @@ fun CharactersItem(character: Character) {
             .clickable {
                 /* TODO */
             }
-            .padding(16.dp)
+            .padding(
+                top = 32.dp,
+                bottom = 32.dp,
+                start = 16.dp,
+                end = 16.dp
+            )
     ) {
         AsyncImage(
             model = character.imageURL,

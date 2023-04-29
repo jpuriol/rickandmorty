@@ -1,9 +1,10 @@
 package com.example.rickandmorty.remote
 
+import com.example.rickandmorty.ui.screens.Character
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class CharacterResult(
     val created: String,
     val episode: List<String>,
     val gender: String,
@@ -16,7 +17,18 @@ data class Result(
     val status: String,
     val type: String,
     val url: String
-)
+) {
+    fun toCharacter(): Character {
+        return Character(
+            name = name,
+            imageURL = image,
+            status = status,
+            species = species,
+            origin = origin.name,
+        )
+    }
+
+}
 
 @Serializable
 data class Location(

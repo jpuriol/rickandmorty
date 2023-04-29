@@ -3,7 +3,7 @@ package com.example.rickandmorty.remote
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CharactersData(
+data class CharactersResponse(
     val info: Info,
-    val results: List<Result>
+    val results: List<CharacterResult>
 )

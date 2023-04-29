@@ -12,7 +12,7 @@ object API {
     private const val BASE_URL = "https://rickandmortyapi.com/api"
     private val client = HttpClient(CIO)
 
-    suspend fun getCharacters(page: Int = 1): CharactersData {
+    suspend fun getCharacters(page: Int = 1): CharactersResponse {
         val response = client.get("$BASE_URL/character?page=$page")
 
         if (response.status != HttpStatusCode.OK) {

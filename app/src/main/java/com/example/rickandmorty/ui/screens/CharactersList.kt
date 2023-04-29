@@ -1,9 +1,6 @@
 package com.example.rickandmorty.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
@@ -12,7 +9,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.rickandmorty.remote.API
@@ -20,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun CharactersScreen() {
+fun CharactersList() {
     val model: CharactersModel = viewModel()
     val state by model.state.collectAsStateWithLifecycle()
 
@@ -28,7 +24,6 @@ fun CharactersScreen() {
         modifier = Modifier.fillMaxWidth()
     ) {
         items(state.characters) { character ->
-            Spacer(modifier = Modifier.height(8.dp))
             CharactersItem(character = character)
             Divider()
         }
@@ -38,22 +33,19 @@ fun CharactersScreen() {
     val scope = rememberCoroutineScope()
     SideEffect {
         scope.launch(Dispatchers.IO) {
-            val charactersData = API.getCharacters()
+            val charactersPage1 = API.getCharacters(page = 1)
 
-            Log.i("api_rest", "results size: ${charactersData.results.size}")
+            model.addCharacters(
+                charactersPage1.results.map { it.toCharacter() }
+            )
 
-            val characters = charactersData.results.map {
-                Character(
-                    name = it.name,
-                    imageURL = it.image,
-                    status = it.status,
-                    species = it.species,
-                    origin = it.origin.name,
+            for (page in 2..charactersPage1.info.pages) {
+                val charactersPage = API.getCharacters(page)
+
+                model.addCharacters(
+                    charactersPage.results.map { it.toCharacter() }
                 )
             }
-
-            model.setCharecters(characters = characters)
-
         }
     }
 }
