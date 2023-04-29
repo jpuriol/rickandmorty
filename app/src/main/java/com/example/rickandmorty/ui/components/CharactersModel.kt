@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.screens
+package com.example.rickandmorty.ui.components
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 data class CharactersState(
-    val characters: List<Character> = emptyList()
+    val characters: List<CharacterInfo> = emptyList()
 )
 
-data class Character(
+data class CharacterInfo(
     val name: String,
     val imageURL: String,
     val status: String,
@@ -22,7 +22,7 @@ class CharactersModel : ViewModel() {
     private val _state = MutableStateFlow(CharactersState())
     val state = _state.asStateFlow()
 
-    fun addCharacters(characters: List<Character>) {
+    fun addCharacters(characters: List<CharacterInfo>) {
         _state.update {
             it.copy(characters = it.characters + characters)
         }

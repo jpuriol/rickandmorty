@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.screens
+package com.example.rickandmorty.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,7 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun CharactersList() {
+fun CharactersList(
+    navigateToDetail: (c: CharacterInfo) -> Unit
+) {
     val model: CharactersModel = viewModel()
     val state by model.state.collectAsStateWithLifecycle()
 
@@ -24,7 +26,10 @@ fun CharactersList() {
         modifier = Modifier.fillMaxWidth()
     ) {
         items(state.characters) { character ->
-            CharactersItem(character = character)
+            CharacterSummary(
+                character = character,
+                onClick = { navigateToDetail(it) },
+            )
             Divider()
         }
 

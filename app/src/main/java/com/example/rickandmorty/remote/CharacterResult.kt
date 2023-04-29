@@ -1,6 +1,6 @@
 package com.example.rickandmorty.remote
 
-import com.example.rickandmorty.ui.screens.Character
+import com.example.rickandmorty.ui.components.CharacterInfo
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,8 +18,8 @@ data class CharacterResult(
     val type: String,
     val url: String
 ) {
-    fun toCharacter(): Character {
-        return Character(
+    fun toCharacter(): CharacterInfo {
+        return CharacterInfo(
             name = name,
             imageURL = image,
             status = status,
