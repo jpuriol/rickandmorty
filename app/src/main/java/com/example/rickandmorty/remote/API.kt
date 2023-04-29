@@ -9,13 +9,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 object API {
-
     private const val BASE_URL = "https://rickandmortyapi.com/api"
+    private val client = HttpClient(CIO)
 
-    val client = HttpClient(CIO)
-
-    suspend fun getCharcaters(): CharactersData {
-        val response = client.get("$BASE_URL/character")
+    suspend fun getCharacters(page: Int = 1): CharactersData {
+        val response = client.get("$BASE_URL/character?page=$page")
 
         if (response.status != HttpStatusCode.OK) {
             error("Invalid response status ${response.status}")
@@ -24,6 +22,10 @@ object API {
         val body: String = response.bodyAsText()
         return Json.decodeFromString(body)
 
+    }
+
+    fun cleanup() {
+        client.close()
     }
 
 }

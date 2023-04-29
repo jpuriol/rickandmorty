@@ -38,7 +38,7 @@ fun CharactersScreen() {
     val scope = rememberCoroutineScope()
     SideEffect {
         scope.launch(Dispatchers.IO) {
-            val charactersData = API.getCharcaters()
+            val charactersData = API.getCharacters()
 
             Log.i("api_rest", "results size: ${charactersData.results.size}")
 
