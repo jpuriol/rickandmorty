@@ -14,6 +14,7 @@ data class Character(
     val imageURL: String,
     val status: String,
     val species: String,
+    val type: String,
     val origin: String,
 )
 

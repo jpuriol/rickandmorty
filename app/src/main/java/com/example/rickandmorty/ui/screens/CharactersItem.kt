@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -27,6 +28,7 @@ import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 fun CharactersItem(character: Character) {
 
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
@@ -46,7 +48,7 @@ fun CharactersItem(character: Character) {
             modifier = Modifier
                 .clip(RoundedCornerShape(2.dp))
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = character.name,
@@ -55,18 +57,45 @@ fun CharactersItem(character: Character) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = stringResource(R.string.status_x, character.status),
+                text = stringResource(R.string.status).uppercase(),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Light
+            )
+            Text(
+                text = character.status,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = stringResource(R.string.species_x, character.species),
+                text = stringResource(R.string.species).uppercase(),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Light
+            )
+            Text(
+                text = character.species,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            Spacer(modifier = Modifier.height(2.dp))
+            if (character.type.isNotBlank()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.type).uppercase(),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Light
+                )
+                Text(
+                    text = character.type,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = stringResource(R.string.origin_x, character.origin),
-                style = MaterialTheme.typography.bodyMedium
+                text = stringResource(R.string.origin).uppercase(),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Light
+            )
+            Text(
+                text = character.origin,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
@@ -78,10 +107,11 @@ fun PreviewCharactersItems() {
     RickAndMortyTheme {
         CharactersItem(
             character = Character(
-                name = "Rick Sanchez",
-                imageURL = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-                status = "Alive",
+                name = "Toxic Rick",
+                imageURL = "",
+                status = "Dead",
                 species = "Human",
+                type = "Rick's Toxic Side",
                 origin = "Earth"
             )
         )

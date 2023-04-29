@@ -24,6 +24,7 @@ data class CharacterResult(
             imageURL = image,
             status = status,
             species = species,
+            type = type,
             origin = origin.name,
         )
     }
