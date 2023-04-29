@@ -24,11 +24,13 @@ fun MainScreen() {
             CharacterDetail(
                 character = CharacterInfo(
                     name = "Toxic Rick",
-                    imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
                     status = "Dead",
                     species = "Human",
                     type = "Rick's Toxic Side",
-                    origin = "Earth"
+                    gender = "Male",
+                    origin = "Alien Spa",
+                    location = "Earth",
+                    imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
                 ),
                 back = { navController.popBackStack() },
             )

@@ -5,19 +5,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,12 +37,7 @@ fun CharacterDetail(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(
-                top = 32.dp,
-                bottom = 32.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
+            .padding(16.dp)
     ) {
 
         OutlinedTextField(
@@ -50,20 +46,86 @@ fun CharacterDetail(
             onValueChange = {},
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.status,
+            label = { Text(text = stringResource(R.string.status).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.species,
+            label = { Text(text = stringResource(R.string.species).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.type,
+            label = { Text(text = stringResource(R.string.type).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.gender,
+            label = { Text(text = stringResource(R.string.gender).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.origin,
+            label = { Text(text = stringResource(R.string.origin).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.location,
+            label = { Text(text = stringResource(R.string.location).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = character.imageURL,
+            label = { Text(text = stringResource(R.string.image_url).uppercase()) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth()
+        )
 
-        Button(
-            onClick = { back() },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = { back() },
+                modifier = Modifier.weight(1f)
             ) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = null
+                )
                 Text(
-                    text = stringResource(R.string.back_to_list).uppercase(),
+                    text = stringResource(R.string.back),
+                    modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
+                )
+
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = { back() },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = stringResource(R.string.save),
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center,
+                )
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = null
                 )
             }
         }
@@ -77,11 +139,13 @@ fun PreviewCharacterDetail() {
         CharacterDetail(
             character = CharacterInfo(
                 name = "Toxic Rick",
-                imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
                 status = "Dead",
                 species = "Human",
                 type = "Rick's Toxic Side",
-                origin = "Earth"
+                gender = "Male",
+                origin = "Alien Spa",
+                location = "Earth",
+                imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
             ),
             back = {},
         )

@@ -11,11 +11,13 @@ data class CharactersState(
 
 data class CharacterInfo(
     val name: String,
-    val imageURL: String,
     val status: String,
     val species: String,
     val type: String,
+    val gender: String,
     val origin: String,
+    val location: String,
+    val imageURL: String,
 )
 
 class CharactersModel : ViewModel() {

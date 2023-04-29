@@ -21,11 +21,13 @@ data class CharacterResult(
     fun toCharacter(): CharacterInfo {
         return CharacterInfo(
             name = name,
-            imageURL = image,
             status = status,
             species = species,
             type = type,
+            gender = gender,
             origin = origin.name,
+            location = location.name,
+            imageURL = image,
         )
     }
 

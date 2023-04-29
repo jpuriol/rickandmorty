@@ -45,35 +45,6 @@ fun CharacterSummary(
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.status).uppercase(),
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Light,
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .size(5.dp)
-                    .clip(CircleShape)
-                    .background(
-                        when (character.status) {
-                            "Alive" -> Color.Green
-                            "Dead" -> Color.Red
-                            else -> Color.LightGray
-                        }
-                    )
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = character.status,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
         Spacer(modifier = Modifier.height(8.dp))
         Row {
             AsyncImage(
@@ -85,6 +56,34 @@ fun CharacterSummary(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = stringResource(R.string.status).uppercase(),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Light,
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .size(5.dp)
+                            .clip(CircleShape)
+                            .background(
+                                when (character.status) {
+                                    "Alive" -> Color.Green
+                                    "Dead" -> Color.Red
+                                    else -> Color.LightGray
+                                }
+                            )
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = character.status,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = stringResource(R.string.species).uppercase(),
                     style = MaterialTheme.typography.bodySmall,
@@ -106,16 +105,6 @@ fun CharacterSummary(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.origin).uppercase(),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Light
-                )
-                Text(
-                    text = character.origin,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
             }
         }
 
@@ -130,11 +119,13 @@ fun PreviewCharacterSummary() {
         CharacterSummary(
             character = CharacterInfo(
                 name = "Toxic Rick",
-                imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
                 status = "Dead",
                 species = "Human",
                 type = "Rick's Toxic Side",
-                origin = "Earth"
+                gender = "Male",
+                origin = "Alien Spa",
+                location = "Earth",
+                imageURL = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
             ),
             onClick = {},
         )
