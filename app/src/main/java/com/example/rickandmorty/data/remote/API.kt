@@ -1,4 +1,4 @@
-package com.example.rickandmorty.remote
+package com.example.rickandmorty.data.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO

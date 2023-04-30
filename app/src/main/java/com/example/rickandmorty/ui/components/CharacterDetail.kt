@@ -138,6 +138,7 @@ fun PreviewCharacterDetail() {
     RickAndMortyTheme {
         CharacterDetail(
             character = CharacterInfo(
+                id = 0,
                 name = "Toxic Rick",
                 status = "Dead",
                 species = "Human",

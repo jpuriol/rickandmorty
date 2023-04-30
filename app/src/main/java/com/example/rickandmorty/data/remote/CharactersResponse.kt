@@ -1,7 +1,12 @@
-package com.example.rickandmorty.remote
+package com.example.rickandmorty.data.remote
 
-import com.example.rickandmorty.ui.components.CharacterInfo
 import kotlinx.serialization.Serializable
+
+@Serializable
+data class CharactersResponse(
+    val info: Info,
+    val results: List<CharacterResult>
+)
 
 @Serializable
 data class CharacterResult(
@@ -17,21 +22,7 @@ data class CharacterResult(
     val status: String,
     val type: String,
     val url: String
-) {
-    fun toCharacter(): CharacterInfo {
-        return CharacterInfo(
-            name = name,
-            status = status,
-            species = species,
-            type = type,
-            gender = gender,
-            origin = origin.name,
-            location = location.name,
-            imageURL = image,
-        )
-    }
-
-}
+)
 
 @Serializable
 data class Location(
@@ -43,4 +34,12 @@ data class Location(
 data class Origin(
     val name: String,
     val url: String
+)
+
+@Serializable
+data class Info(
+    val count: Int,
+    val next: String?,
+    val pages: Int,
+    val prev: String?,
 )

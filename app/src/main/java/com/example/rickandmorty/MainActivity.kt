@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.rickandmorty.remote.API
+import com.example.rickandmorty.data.remote.API
 import com.example.rickandmorty.ui.MainScreen
 import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 
