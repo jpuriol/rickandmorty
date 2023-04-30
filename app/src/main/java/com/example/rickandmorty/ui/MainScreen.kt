@@ -43,7 +43,8 @@ fun MainScreen() {
                 .collectAsState(initial = CharacterData())
 
             CharacterDetail(
-                character = detail.toCharacterInfo(),
+                initial = detail.toCharacterInfo(),
+                characterDAO = characterDAO,
                 back = { navController.popBackStack() },
             )
         }
