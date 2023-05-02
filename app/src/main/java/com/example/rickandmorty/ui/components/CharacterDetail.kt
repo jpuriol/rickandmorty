@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.example.rickandmorty.ui.components
 
 import androidx.compose.foundation.layout.Column
@@ -31,6 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.local.CharacterDAO
 import com.example.rickandmorty.data.mappers.toCharacteData
@@ -39,14 +39,17 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetail(
-    initial: CharacterInfo,
+    id: Int,
     characterDAO: CharacterDAO,
     back: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
-    val model: DetailModel = viewModel()
-    model.set(initial)
+    val model: DetailModel = viewModel(factory = viewModelFactory {
+        initializer {
+            DetailModel(characterID = id, characterDAO = characterDAO)
+        }
+    })
     val character by model.state.collectAsStateWithLifecycle()
 
     Column(

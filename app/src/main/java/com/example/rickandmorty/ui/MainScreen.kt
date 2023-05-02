@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
-import com.example.rickandmorty.data.local.CharacterData
 import com.example.rickandmorty.data.mappers.toCharacterData
 import com.example.rickandmorty.data.mappers.toCharacterInfo
 import com.example.rickandmorty.data.remote.API
@@ -39,11 +38,9 @@ fun MainScreen() {
         composable("detail/{id}") {
             val id = it.arguments?.getString("id") ?: return@composable
 
-            val detail by characterDAO.getCharacter(id.toInt())
-                .collectAsState(initial = CharacterData())
 
             CharacterDetail(
-                initial = detail.toCharacterInfo(),
+                id = id.toInt(),
                 characterDAO = characterDAO,
                 back = { navController.popBackStack() },
             )
