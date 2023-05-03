@@ -9,14 +9,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
+import com.example.rickandmorty.data.local.CharacterData
 import com.example.rickandmorty.data.mappers.toCharacterData
 import com.example.rickandmorty.data.mappers.toCharacterInfo
 import com.example.rickandmorty.data.remote.API
 import com.example.rickandmorty.ui.components.CharacterDetail
 import com.example.rickandmorty.ui.components.CharactersList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -50,23 +56,40 @@ fun MainScreen() {
 
     val scope = rememberCoroutineScope()
     SideEffect {
+        val channel = Channel<CharacterData>(BUFFERED)
+
         scope.launch(Dispatchers.IO) {
             runCatching {
                 val charactersPage1 = API.getCharacters(page = 1)
 
-                for (character in charactersPage1.results) {
-                    characterDAO.insert(character.toCharacterData())
-                }
-
-                for (page in 2..charactersPage1.info.pages) {
-                    val charactersPage = API.getCharacters(page)
-
-                    for (character in charactersPage.results) {
-                        characterDAO.insert(character.toCharacterData())
+                launch {
+                    charactersPage1.results.forEach {
+                        channel.send(it.toCharacterData())
                     }
                 }
+
+                val deferred = (2..charactersPage1.info.pages).map { page ->
+                    async { API.getCharacters(page) }
+                }
+
+                deferred.forEach { d ->
+                    val response = d.await()
+                    response.results.forEach { result ->
+                        channel.send(result.toCharacterData())
+                    }
+                }
+
+                channel.close()
             }
         }
+
+        scope.launch {
+            while (!channel.isClosedForReceive) {
+                val data = channel.receive()
+                characterDAO.insert(data)
+            }
+        }
+
     }
 
 }
