@@ -16,13 +16,11 @@ import com.example.rickandmorty.data.remote.API
 import com.example.rickandmorty.ui.components.CharacterDetail
 import com.example.rickandmorty.ui.components.CharactersList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
