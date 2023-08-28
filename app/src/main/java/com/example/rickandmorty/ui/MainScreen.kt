@@ -84,9 +84,14 @@ fun MainScreen() {
         }
 
         scope.launch {
-            while (!channel.isClosedForReceive) {
-                val data = channel.receive()
-                characterDAO.insert(data)
+            while (true) {
+                val resp = channel.receiveCatching()
+                if (resp.isSuccess) {
+                    val data = resp.getOrThrow()
+                    characterDAO.insert(data)
+                } else {
+                    break
+                }
             }
         }
 
