@@ -10,16 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
-import com.example.rickandmorty.data.local.CharacterData
 import com.example.rickandmorty.data.mappers.toCharacterData
 import com.example.rickandmorty.data.mappers.toCharacterInfo
 import com.example.rickandmorty.data.remote.API
 import com.example.rickandmorty.ui.components.CharacterDetail
 import com.example.rickandmorty.ui.components.CharactersList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,45 +54,27 @@ fun MainScreen() {
 
     val scope = rememberCoroutineScope()
     SideEffect {
-        val channel = Channel<CharacterData>(BUFFERED)
+
+        val f = flow {
+            runCatching {
+                val page1 = API.getCharacters(page = 1)
+                emit(page1.results)
+
+                for (pageNum in 2..page1.info.pages) {
+                    val page = API.getCharacters(page = pageNum)
+                    emit(page.results)
+                }
+
+            }
+        }
 
         scope.launch(Dispatchers.IO) {
-            runCatching {
-                val charactersPage1 = API.getCharacters(page = 1)
-
-                launch {
-                    charactersPage1.results.forEach {
-                        channel.send(it.toCharacterData())
-                    }
-                }
-
-                val deferred = (2..charactersPage1.info.pages).map { page ->
-                    async { API.getCharacters(page) }
-                }
-
-                deferred.forEach { d ->
-                    val response = d.await()
-                    response.results.forEach { result ->
-                        channel.send(result.toCharacterData())
-                    }
-                }
-
-                channel.close()
-            }
-        }
-
-        scope.launch {
-            while (true) {
-                val resp = channel.receiveCatching()
-                if (resp.isSuccess) {
-                    val data = resp.getOrThrow()
-                    characterDAO.insert(data)
-                } else {
-                    break
+            f.collect { characters ->
+                for (character in characters) {
+                    characterDAO.insert(character.toCharacterData())
                 }
             }
         }
-
     }
 
 }
