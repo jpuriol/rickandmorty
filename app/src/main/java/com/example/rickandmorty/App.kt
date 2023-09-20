@@ -5,15 +5,10 @@ import com.example.rickandmorty.data.local.CharacterDatabase
 
 class App : Application() {
 
-    companion object {
-        private lateinit var instance_: App
-        val instance by lazy { instance_ }
-    }
-
     lateinit var database: CharacterDatabase
+        private set
 
     override fun onCreate() {
-        instance_ = this
         super.onCreate()
         database = CharacterDatabase.getDatabase(this)
     }

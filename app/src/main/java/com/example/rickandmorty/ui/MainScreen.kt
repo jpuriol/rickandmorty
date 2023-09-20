@@ -5,6 +5,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,7 +25,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val app = App.instance
+    val context = LocalContext.current
+
+    val app = context.applicationContext as App
 
     val characterDAO = app.database.characterDAO()
 
