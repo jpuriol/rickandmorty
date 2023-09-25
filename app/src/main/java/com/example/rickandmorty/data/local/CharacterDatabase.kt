@@ -13,9 +13,9 @@ abstract class CharacterDatabase : RoomDatabase() {
     companion object {
         private var instance: CharacterDatabase? = null
 
-        fun getDatabase(contex: Context): CharacterDatabase {
+        fun getDatabase(context: Context): CharacterDatabase {
             return instance ?: synchronized(this) {
-                Room.databaseBuilder(contex, CharacterDatabase::class.java, "character_database")
+                Room.inMemoryDatabaseBuilder(context, CharacterDatabase::class.java)
                     .build()
                     .also { instance = it }
             }
