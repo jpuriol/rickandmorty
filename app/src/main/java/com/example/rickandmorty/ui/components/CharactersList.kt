@@ -1,6 +1,6 @@
 package com.example.rickandmorty.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,18 +15,20 @@ fun CharactersList(
     characters: List<CharacterInfo>,
     navigateToDetail: (id: Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        if (characters.isEmpty()) {
-            item {
-                CircularProgressIndicator()
-            }
-            return@LazyColumn
+    if (characters.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
+
+        return
+    }
+
+
+    LazyColumn {
 
         items(characters) { character ->
             CharacterSummary(
