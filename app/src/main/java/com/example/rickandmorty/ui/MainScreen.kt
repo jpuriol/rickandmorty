@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
 import com.example.rickandmorty.data.mappers.toCharacterInfo
-import com.example.rickandmorty.ui.components.CharacterDetail
+import com.example.rickandmorty.ui.components.CharacterDetails
 import com.example.rickandmorty.ui.components.CharactersList
 
 @Composable
@@ -34,7 +34,7 @@ fun MainScreen() {
         composable("detail/{id}") {
             val id = it.arguments?.getString("id") ?: return@composable
 
-            CharacterDetail(
+            CharacterDetails(
                 id = id.toInt(),
                 characterDAO = characterDAO,
                 back = { navController.popBackStack() },
