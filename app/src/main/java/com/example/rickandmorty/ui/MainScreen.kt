@@ -1,7 +1,6 @@
 package com.example.rickandmorty.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -9,13 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
-import com.example.rickandmorty.data.mappers.toCharacterData
 import com.example.rickandmorty.data.mappers.toCharacterInfo
-import com.example.rickandmorty.data.remote.API
 import com.example.rickandmorty.ui.components.CharacterDetail
 import com.example.rickandmorty.ui.components.CharactersList
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.flow
 
 @Composable
 fun MainScreen() {
@@ -39,33 +34,11 @@ fun MainScreen() {
         composable("detail/{id}") {
             val id = it.arguments?.getString("id") ?: return@composable
 
-
             CharacterDetail(
                 id = id.toInt(),
                 characterDAO = characterDAO,
                 back = { navController.popBackStack() },
             )
-        }
-    }
-
-    LaunchedEffect(Unit) {
-
-        val results = flow {
-            runCatching {
-                val page1 = API.getCharacters(page = 1)
-                emit(page1.results)
-
-                for (pageNum in 2..page1.info.pages) {
-                    val page = API.getCharacters(page = pageNum)
-                    emit(page.results)
-                }
-            }
-        }
-
-        results.buffer().collect { characters ->
-            for (character in characters) {
-                characterDAO.insert(character.toCharacterData())
-            }
         }
     }
 }
