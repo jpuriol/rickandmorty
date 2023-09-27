@@ -46,7 +46,9 @@ fun CharacterSummary(
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             AsyncImage(
                 model = character.imageURL,
                 contentDescription = null,
@@ -54,7 +56,7 @@ fun CharacterSummary(
                 modifier = Modifier
                     .clip(RoundedCornerShape(5.dp))
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = stringResource(R.string.status).uppercase(),
@@ -93,18 +95,17 @@ fun CharacterSummary(
                     text = character.species,
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                if (character.type.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.type).uppercase(),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                    Text(
-                        text = character.type,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.location).uppercase(),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Light
+                )
+                Text(
+                    text = character.location,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
         }
 

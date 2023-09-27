@@ -1,5 +1,6 @@
 package com.example.rickandmorty.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -23,7 +25,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import coil.compose.AsyncImage
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.local.CharacterDAO
 import com.example.rickandmorty.data.mappers.toCharacteData
@@ -73,9 +79,20 @@ fun CharacterDetails(
                 .padding(paddingValues)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
+            AsyncImage(
+                model = character.imageURL,
+                contentDescription = null,
+                placeholder = painterResource(R.drawable.character_placeholder),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(2.dp))
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
             OutlinedTextField(
                 value = character.name,
                 label = { Text(text = stringResource(R.string.name).uppercase()) },
@@ -101,43 +118,11 @@ fun CharacterDetails(
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = character.type,
-                label = { Text(text = stringResource(R.string.type).uppercase()) },
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = character.gender,
-                label = { Text(text = stringResource(R.string.gender).uppercase()) },
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = character.origin,
-                label = { Text(text = stringResource(R.string.origin).uppercase()) },
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
                 value = character.location,
                 label = { Text(text = stringResource(R.string.location).uppercase()) },
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = character.imageURL,
-                label = { Text(text = stringResource(R.string.image_url).uppercase()) },
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -151,7 +136,7 @@ fun CharacterDetails(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(R.string.save),
+                    text = stringResource(R.string.save).uppercase(),
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
                 )
