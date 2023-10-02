@@ -54,6 +54,7 @@ fun CharacterSummary(
                 contentDescription = null,
                 placeholder = painterResource(R.drawable.character_placeholder),
                 modifier = Modifier
+                    .size(120.dp)
                     .clip(RoundedCornerShape(5.dp))
             )
             Spacer(modifier = Modifier.width(16.dp))
