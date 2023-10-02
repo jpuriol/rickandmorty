@@ -35,8 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.local.CharacterDAO
@@ -52,11 +50,10 @@ fun CharacterDetails(
 ) {
     val scope = rememberCoroutineScope()
 
-    val model: DetailModel = viewModel(factory = viewModelFactory {
-        initializer {
-            DetailModel(characterID = id, characterDAO = characterDAO)
-        }
-    })
+    val model: DetailModel = viewModel(initializer = {
+        DetailModel(characterID = id, characterDAO = characterDAO)
+    }
+    )
     val character by model.state.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -80,7 +77,6 @@ fun CharacterDetails(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            //verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
