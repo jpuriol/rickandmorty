@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,8 +37,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.local.CharacterDAO
-import com.example.rickandmorty.data.mappers.toCharacteData
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,8 +45,6 @@ fun EditScreen(
     characterDAO: CharacterDAO,
     back: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
     val model: EditModel = viewModel(initializer = {
         EditModel(characterID = id, characterDAO = characterDAO)
     }
@@ -85,7 +80,7 @@ fun EditScreen(
                 contentDescription = null,
                 placeholder = painterResource(R.drawable.character_placeholder),
                 modifier = Modifier
-                    .size(192.dp)
+                    .size(160.dp)
                     .clip(RoundedCornerShape(5.dp))
             )
 
@@ -101,7 +96,7 @@ fun EditScreen(
             OutlinedTextField(
                 value = character.status,
                 label = { Text(text = stringResource(R.string.status).uppercase()) },
-                onValueChange = {},
+                onValueChange = { model.setStatus(it) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             )
@@ -109,7 +104,7 @@ fun EditScreen(
             OutlinedTextField(
                 value = character.species,
                 label = { Text(text = stringResource(R.string.species).uppercase()) },
-                onValueChange = {},
+                onValueChange = { model.setSpecies(it) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             )
@@ -117,17 +112,15 @@ fun EditScreen(
             OutlinedTextField(
                 value = character.location,
                 label = { Text(text = stringResource(R.string.location).uppercase()) },
-                onValueChange = {},
+                onValueChange = { model.setLocation(it) },
                 modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    scope.launch {
-                        characterDAO.update(character.toCharacteData())
-                    }
+                    model.save()
                     back()
                 },
                 modifier = Modifier.fillMaxWidth()
