@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.components
+package com.example.rickandmorty.use_cases.show_characters
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
+import com.example.rickandmorty.domain.CharacterInfo
 import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 
 @Composable

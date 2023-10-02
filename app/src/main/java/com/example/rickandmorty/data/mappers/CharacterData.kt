@@ -2,7 +2,7 @@ package com.example.rickandmorty.data.mappers
 
 import com.example.rickandmorty.data.local.CharacterData
 import com.example.rickandmorty.data.remote.CharacterResult
-import com.example.rickandmorty.ui.components.CharacterInfo
+import com.example.rickandmorty.domain.CharacterInfo
 
 fun CharacterResult.toCharacterData(): CharacterData {
     return CharacterData(

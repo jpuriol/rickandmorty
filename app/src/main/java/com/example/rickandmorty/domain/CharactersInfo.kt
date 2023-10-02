@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.components
+package com.example.rickandmorty.domain
 
 
 data class CharacterInfo(

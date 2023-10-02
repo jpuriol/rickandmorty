@@ -1,16 +1,17 @@
-package com.example.rickandmorty.ui.components
+package com.example.rickandmorty.use_cases.edit_character
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.data.local.CharacterDAO
 import com.example.rickandmorty.data.mappers.toCharacterInfo
+import com.example.rickandmorty.domain.CharacterInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DetailModel(characterID: Int, characterDAO: CharacterDAO) : ViewModel() {
+class EditModel(characterID: Int, characterDAO: CharacterDAO) : ViewModel() {
 
     private val _state = MutableStateFlow(CharacterInfo())
     val state = _state.asStateFlow()

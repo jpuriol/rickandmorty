@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.components
+package com.example.rickandmorty.use_cases.show_characters
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,9 +9,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.rickandmorty.domain.CharacterInfo
 
 @Composable
-fun CharactersList(
+fun CharactersScreen(
     characters: List<CharacterInfo>,
     navigateToDetail: (id: Int) -> Unit
 ) {

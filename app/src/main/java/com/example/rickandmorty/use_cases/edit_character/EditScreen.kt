@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.components
+package com.example.rickandmorty.use_cases.edit_character
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,15 +43,15 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterDetails(
+fun EditScreen(
     id: Int,
     characterDAO: CharacterDAO,
     back: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
-    val model: DetailModel = viewModel(initializer = {
-        DetailModel(characterID = id, characterDAO = characterDAO)
+    val model: EditModel = viewModel(initializer = {
+        EditModel(characterID = id, characterDAO = characterDAO)
     }
     )
     val character by model.state.collectAsStateWithLifecycle()
