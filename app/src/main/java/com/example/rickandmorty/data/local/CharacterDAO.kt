@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(character: CharacterData)
+    suspend fun insert(character: CharacterEntity)
 
     @Update
-    suspend fun update(character: CharacterData)
+    suspend fun update(character: CharacterEntity)
 
     @Query("SELECT * from items WHERE id = :id")
-    fun getCharacter(id: Int): Flow<CharacterData>
+    fun getCharacter(id: Int): Flow<CharacterEntity>
 
     @Query("SELECT * from items ORDER BY id ASC")
-    fun getAllCharacters(): Flow<List<CharacterData>>
+    fun getAllCharacters(): Flow<List<CharacterEntity>>
 
 }

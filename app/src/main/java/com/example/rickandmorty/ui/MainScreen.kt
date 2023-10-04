@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmorty.App
-import com.example.rickandmorty.data.mappers.toCharacterInfo
+import com.example.rickandmorty.model.CharactersRepository
 import com.example.rickandmorty.use_cases.edit_character.EditScreen
 import com.example.rickandmorty.use_cases.show_characters.CharactersScreen
 
@@ -19,14 +19,14 @@ fun MainScreen() {
     val app = context.applicationContext as App
 
     val characterDAO = app.database.characterDAO()
-    val charactersFlow = characterDAO.getAllCharacters()
+    val charactersRepository = CharactersRepository(characterDAO)
 
-    val characters by charactersFlow.collectAsState(initial = emptyList())
+    val characters by charactersRepository.get().collectAsState(initial = emptyList())
 
     NavHost(navController = navController, startDestination = "list") {
         composable(route = "list") {
             CharactersScreen(
-                characters = characters.map { it.toCharacterInfo() },
+                characters = characters,
                 navigateToDetail = { id ->
                     navController.navigate("detail/$id")
                 }
@@ -37,8 +37,8 @@ fun MainScreen() {
 
             EditScreen(
                 id = id.toInt(),
-                characterDAO = characterDAO,
-                back = { navController.popBackStack() },
+                charactersRepository = charactersRepository,
+                navigateBack = { navController.popBackStack() },
             )
         }
     }

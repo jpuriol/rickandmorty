@@ -27,13 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
-import com.example.rickandmorty.domain.CharacterInfo
+import com.example.rickandmorty.model.Character
 import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 
 @Composable
 fun CharacterSummary(
-    character: CharacterInfo,
-    onClick: (c: CharacterInfo) -> Unit,
+    character: Character,
+    onClick: (c: Character) -> Unit,
 ) {
 
     Column(modifier = Modifier
@@ -120,7 +120,7 @@ fun CharacterSummary(
 fun PreviewCharacterSummary() {
     RickAndMortyTheme {
         CharacterSummary(
-            character = CharacterInfo(
+            character = Character(
                 id = 0,
                 name = "Toxic Rick",
                 status = "Dead",

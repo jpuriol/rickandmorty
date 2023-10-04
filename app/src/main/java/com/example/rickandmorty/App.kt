@@ -2,8 +2,9 @@ package com.example.rickandmorty
 
 import android.app.Application
 import com.example.rickandmorty.data.local.CharacterDatabase
-import com.example.rickandmorty.data.mappers.toCharacterData
+import com.example.rickandmorty.data.local.CharacterEntity
 import com.example.rickandmorty.data.remote.API
+import com.example.rickandmorty.data.remote.CharacterResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.buffer
@@ -38,9 +39,23 @@ class App : Application() {
             val characterDAO = database.characterDAO()
             results.buffer().collect { characters ->
                 for (character in characters) {
-                    characterDAO.insert(character.toCharacterData())
+                    characterDAO.insert(character.toCharacterEntity())
                 }
             }
         }
     }
+}
+
+private fun CharacterResult.toCharacterEntity(): CharacterEntity {
+    return CharacterEntity(
+        id = id,
+        name = name,
+        status = status,
+        species = species,
+        type = type,
+        gender = gender,
+        origin = origin.name,
+        location = location.name,
+        imageURL = image,
+    )
 }

@@ -1,8 +1,12 @@
-package com.example.rickandmorty.domain
+package com.example.rickandmorty.data.local
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 
-data class CharacterInfo(
-    val id: Int = 0,
+@Entity(tableName = "items")
+data class CharacterEntity(
+    @PrimaryKey val id: Int = 0,
     val name: String = "",
     val status: String = "",
     val species: String = "",

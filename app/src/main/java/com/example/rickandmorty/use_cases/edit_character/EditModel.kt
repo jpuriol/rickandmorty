@@ -2,28 +2,25 @@ package com.example.rickandmorty.use_cases.edit_character
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmorty.data.local.CharacterDAO
-import com.example.rickandmorty.data.mappers.toCharacterData
-import com.example.rickandmorty.data.mappers.toCharacterInfo
-import com.example.rickandmorty.domain.CharacterInfo
+import com.example.rickandmorty.model.Character
+import com.example.rickandmorty.model.CharactersRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EditModel(
     characterID: Int,
-    private val characterDAO: CharacterDAO
+    private val charactersRepository: CharactersRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharacterInfo())
+    private val _state = MutableStateFlow(Character())
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val initial = characterDAO.getCharacter(characterID).first()
-            _state.update { initial.toCharacterInfo() }
+            val initial = charactersRepository.character(characterID)
+            _state.update { initial }
         }
     }
 
@@ -45,8 +42,7 @@ class EditModel(
 
     fun save() {
         viewModelScope.launch {
-            val character = state.value.toCharacterData()
-            characterDAO.update(character)
+            charactersRepository.update(state.value)
         }
     }
 }

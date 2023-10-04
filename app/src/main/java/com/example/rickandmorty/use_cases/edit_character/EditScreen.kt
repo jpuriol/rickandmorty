@@ -36,17 +36,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.local.CharacterDAO
+import com.example.rickandmorty.model.CharactersRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditScreen(
     id: Int,
-    characterDAO: CharacterDAO,
-    back: () -> Unit,
+    charactersRepository: CharactersRepository,
+    navigateBack: () -> Unit,
 ) {
     val model: EditModel = viewModel(initializer = {
-        EditModel(characterID = id, characterDAO = characterDAO)
+        EditModel(id, charactersRepository)
     }
     )
     val character by model.state.collectAsStateWithLifecycle()
@@ -56,7 +56,7 @@ fun EditScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.character_details)) },
                 navigationIcon = {
-                    IconButton(onClick = { back() }) {
+                    IconButton(onClick = { navigateBack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = stringResource(R.string.back)
@@ -121,7 +121,7 @@ fun EditScreen(
             Button(
                 onClick = {
                     model.save()
-                    back()
+                    navigateBack()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

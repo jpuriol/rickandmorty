@@ -9,11 +9,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.rickandmorty.domain.CharacterInfo
+import com.example.rickandmorty.model.Character
 
 @Composable
 fun CharactersScreen(
-    characters: List<CharacterInfo>,
+    characters: List<Character>,
     navigateToDetail: (id: Int) -> Unit
 ) {
 
